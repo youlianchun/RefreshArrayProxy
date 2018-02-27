@@ -1,0 +1,4 @@
+platform :ios,' 8.0'
+target 'RefreshArrayProxy' do
+pod 'MJRefresh'
+end
