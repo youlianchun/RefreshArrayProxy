@@ -16,7 +16,6 @@
 
 @property(nonatomic, assign) RefreshSet refSet;
 @property(nonatomic, assign) NSUInteger page;
-@property(nonatomic, assign) BOOL loadingFirst;
 
 /**
  数组0元素时候请求Page始终是StartPage，默认false
@@ -94,7 +93,6 @@ inline RefreshSet RefreshSetMake(BOOL header, BOOL footer, NSUInteger startPage,
     __weak typeof(self)wself = self;
     NSAssert(self.delegate, @"delegate unfind");
     NSUInteger page = self.page;
-    BOOL loadingFirst = self.page == self.refSet.startPage;
     
     [self.delegate loadDataInRefreshView:self.refreshView page:page firstPage:page == self.refSet.startPage res:^(NSArray *arr, BOOL isOK) {
 
@@ -123,7 +121,6 @@ inline RefreshSet RefreshSetMake(BOOL header, BOOL footer, NSUInteger startPage,
                         wself.refreshView.mj_footer.hidden = wself.hidenFooterAtFirstPageWhen1PageSize(wself);
                     }
                 }
-                wself.loadingFirst = NO;
             }else {
                 if (arr.count >= wself.refSet.pageSize) {
                     [wself.refreshView.mj_footer endRefreshing];
@@ -144,7 +141,6 @@ inline RefreshSet RefreshSetMake(BOOL header, BOOL footer, NSUInteger startPage,
             [wself.delegate didLoadDataInRefreshView:wself.refreshView page:page firstPage:page == wself.refSet.startPage];
         }
     }];
-    self.loadingFirst = loadingFirst;
 }
 
 
